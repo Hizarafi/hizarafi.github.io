@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hiza Rafi — Data Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --ink: #111110;
+    --muted: #6b6b65;
+    --accent: #1a6b4a;
+    --accent-light: #e8f5ef;
+    --border: #e4e3de;
+    --tag-bg: #f0efe9;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(247,246,242,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    animation: fadeDown 0.6s ease both;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 5rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.7s 0.2s ease forwards;
+  }
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    opacity: 0; animation: fadeUp 0.7s 0.35s ease forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-tagline {
+    margin-top: 2rem;
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 560px;
+    font-weight: 300;
+    opacity: 0; animation: fadeUp 0.7s 0.5s ease forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 3rem;
+    opacity: 0; animation: fadeUp 0.7s 0.65s ease forwards;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 100px;
+    font-size: 0.9rem; font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer; border: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #155a3d; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    opacity: 0; animation: fadeUp 0.7s 0.8s ease forwards;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem; color: var(--ink);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+
+  /* SECTIONS */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 4rem;
+  }
+  .section-label {
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .section-divider {
+    width: 100%; height: 1px;
+    background: var(--border); margin: 0;
+  }
+
+  /* ABOUT */
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+  .about-text p {
+    color: var(--muted); font-size: 1.05rem;
+    font-weight: 300; margin-bottom: 1.2rem;
+    line-height: 1.8;
+  }
+  .about-text strong { color: var(--ink); font-weight: 500; }
+  .about-aside { display: flex; flex-direction: column; gap: 1.5rem; }
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem 1.6rem;
+  }
+  .info-card-label {
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.5rem;
+  }
+  .info-card-value { font-size: 0.95rem; color: var(--ink); font-weight: 500; }
+  .info-card-value a { color: var(--accent); text-decoration: none; }
+  .info-card-value a:hover { text-decoration: underline; }
+
+  /* SKILLS */
+  #skills { background: var(--bg); }
+  #skills .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-card-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .skill-card-title {
+    font-weight: 600; font-size: 0.95rem; margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--muted);
+    font-size: 0.78rem; font-weight: 500;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .tag.accent { background: var(--accent-light); color: var(--accent); }
+
+  /* EXPERIENCE */
+  #experience .exp-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 3rem; padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:first-child { border-top: 1px solid var(--border); }
+  .exp-meta { padding-top: 0.2rem; }
+  .exp-period {
+    font-size: 0.8rem; font-weight: 500;
+    color: var(--accent); letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  .exp-company { font-size: 0.85rem; color: var(--muted); }
+  .exp-role {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; margin-bottom: 1rem; color: var(--ink);
+  }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .exp-bullets li {
+    font-size: 0.92rem; color: var(--muted); padding-left: 1.2rem;
+    position: relative; font-weight: 300; line-height: 1.7;
+  }
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent); font-size: 0.8rem; top: 0.15rem;
+  }
+
+  /* PROJECTS */
+  #projects .projects-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 2.2rem;
+    display: flex; flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .project-card.featured {
+    grid-column: span 2;
+    background: var(--ink); color: #fff;
+    border-color: var(--ink);
+  }
+  .project-card.featured .project-title { color: #fff; }
+  .project-card.featured .project-desc { color: rgba(255,255,255,0.65); }
+  .project-card.featured .tag { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+  .project-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.85rem; color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .project-card.featured .project-number { color: rgba(255,255,255,0.35); }
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem; margin-bottom: 0.8rem; color: var(--ink);
+    line-height: 1.2;
+  }
+  .project-desc {
+    font-size: 0.9rem; color: var(--muted);
+    font-weight: 300; line-height: 1.7;
+    flex: 1; margin-bottom: 1.5rem;
+  }
+  .project-metric {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.8rem; font-weight: 600;
+    padding: 0.3rem 0.8rem; border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+  .project-card.featured .project-metric {
+    background: rgba(255,255,255,0.15); color: #7ee8b5;
+  }
+
+  /* CERTIFICATIONS */
+  #certifications .cert-list {
+    display: flex; flex-direction: column; gap: 1rem;
+    margin-top: 3rem;
+  }
+  .cert-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.6rem;
+    display: flex; align-items: center; gap: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .cert-item:hover { border-color: var(--accent); }
+  .cert-icon { font-size: 1.4rem; }
+  .cert-name { font-weight: 500; font-size: 0.95rem; }
+  .cert-org { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* CONTACT */
+  #contact {
+    background: var(--ink);
+    max-width: 100%;
+    padding: 6rem 4rem;
+  }
+  #contact .contact-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  #contact .section-label { color: #7ee8b5; }
+  #contact .section-title { color: #fff; }
+  #contact p { color: rgba(255,255,255,0.55); font-weight: 300; margin-top: 1rem; font-size: 1rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .contact-link:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.25);
+    color: #fff;
+  }
+  .contact-link-icon { font-size: 1.1rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { padding: 7rem 1.5rem 4rem; }
+    section { padding: 4rem 1.5rem; }
+    #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    #projects .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    #contact { padding: 4rem 1.5rem; }
+    #contact .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-stats { gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Hiza Rafi</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <p class="hero-eyebrow">Data Analytics · Machine Learning · BI</p>
+  <h1 class="hero-name">Hiza<br/><em>Rafi.</em></h1>
+  <p class="hero-tagline">
+    Data analytics professional turning raw datasets into decisions — through predictive models, BI dashboards, and end-to-end ML pipelines.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View My Work</a>
+    <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">92%</div>
+      <div class="stat-label">Peak Model Accuracy</div>
+    </div>
+    <div>
+      <div class="stat-num">9.51</div>
+      <div class="stat-label">CGPA / 10.0</div>
+    </div>
+    <div>
+      <div class="stat-num">3×</div>
+      <div class="stat-label">Industry Certifications</div>
+    </div>
+    <div>
+      <div class="stat-num">2+</div>
+      <div class="stat-label">Internship Experiences</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label reveal">About Me</p>
+  <h2 class="section-title reveal">Building clarity<br/>from complexity.</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm <strong>Hiza Rafi</strong>, a fresh BCA graduate from Yenepoya University with a specialization in Big Data Analytics, Cloud Computing, and Cybersecurity. Based in Kerala, India.
+      </p>
+      <p>
+        I build end-to-end data solutions — from raw ingestion and ETL pipelines to <strong>predictive ML models</strong> and interactive <strong>Power BI dashboards</strong>. I've worked across real internships and simulations with Deloitte and Tata Group, delivering solutions that actually ship.
+      </p>
+      <p>
+        Certified by Google, Deloitte, and IBM. I care about making data accessible, actionable, and honest — not just technically impressive.
+      </p>
+    </div>
+    <div class="about-aside reveal">
+      <div class="info-card">
+        <div class="info-card-label">Education</div>
+        <div class="info-card-value">BCA — Big Data Analytics<br/>Yenepoya University, Mangalore<br/>CGPA: 9.51 / 10.0</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Location</div>
+        <div class="info-card-value">Kerala, India</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Links</div>
+        <div class="info-card-value">
+          <a href="https://linkedin.com/in/hiza-rafi-bb8299210" target="_blank">LinkedIn ↗</a>&nbsp;&nbsp;
+          <a href="https://github.com/Hizarafi" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label reveal">Technical Skills</p>
+  <h2 class="section-title reveal">What I work with.</h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🐍</div>
+      <div class="skill-card-title">Languages</div>
+      <div class="tags">
+        <span class="tag accent">Python</span>
+        <span class="tag accent">SQL</span>
+        <span class="tag">R (basic)</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">Scikit-learn</span>
+        <span class="tag">OpenCV</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">📊</div>
+      <div class="skill-card-title">Data Visualization & BI</div>
+      <div class="tags">
+        <span class="tag accent">Power BI</span>
+        <span class="tag accent">Tableau</span>
+        <span class="tag">Matplotlib</span>
+        <span class="tag">Seaborn</span>
+        <span class="tag">Excel</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🤖</div>
+      <div class="skill-card-title">Machine Learning</div>
+      <div class="tags">
+        <span class="tag accent">Logistic Regression</span>
+        <span class="tag accent">Random Forest</span>
+        <span class="tag">Classification</span>
+        <span class="tag">Clustering</span>
+        <span class="tag">A/B Testing</span>
+        <span class="tag">Feature Engineering</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">⚙️</div>
+      <div class="skill-card-title">Data Engineering</div>
+      <div class="tags">
+        <span class="tag accent">ETL Pipelines</span>
+        <span class="tag">RDBMS</span>
+        <span class="tag">Data Modeling</span>
+        <span class="tag">OOP</span>
+        <span class="tag">Git</span>
+        <span class="tag">Linux</span>
+        <span class="tag">IBM Cloud</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label reveal">Experience</p>
+  <h2 class="section-title reveal">Where I've contributed.</h2>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Oct 2025</div>
+        <div class="exp-company">Tata Group · Forage</div>
+      </div>
+      <div>
+        <div class="exp-role">GenAI Data Analytics Simulation</div>
+        <ul class="exp-bullets">
+          <li>Built predictive churn models using Logistic Regression and Random Forest, reaching 85% accuracy across large customer datasets.</li>
+          <li>Engineered an AI-driven collections strategy using targeted segmentation, cutting projected delinquency risk by 15%.</li>
+          <li>Validated model performance through statistical significance testing and experimental design.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Sep 2025</div>
+        <div class="exp-company">Deloitte · Forage</div>
+      </div>
+      <div>
+        <div class="exp-role">Data Analytics Virtual Intern</div>
+        <ul class="exp-bullets">
+          <li>Rebuilt data collection and transformation workflows across multi-source datasets, boosting behavioral data accuracy by 25%.</li>
+          <li>Built interactive BI dashboards surfacing KPI improvement opportunities for non-technical stakeholders.</li>
+          <li>Executed SQL queries and Python scripts to surface actionable user behavior insights.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Sep – Nov 2024</div>
+        <div class="exp-company">Pheme Software · Mangalore</div>
+      </div>
+      <div>
+        <div class="exp-role">Machine Learning Intern</div>
+        <ul class="exp-bullets">
+          <li>Engineered a real-time facial emotion recognition system using Python and OpenCV, achieving 92% accuracy in live testing.</li>
+          <li>Reduced model inference time by 30% through optimized data pipelines and feature engineering.</li>
+          <li>Delivered a complete end-to-end ML pipeline integrated into a client-facing product with zero post-handover rework.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal">Projects</p>
+  <h2 class="section-title reveal">Things I've built.</h2>
+  <div class="projects-grid">
+
+    <div class="project-card featured reveal">
+      <div class="project-number">01 — Featured</div>
+      <div class="project-title">Customer Churn Prediction<br/>with Power BI Dashboard</div>
+      <span class="project-metric">~85% Model Accuracy · 40% Faster Stakeholder Analysis</span>
+      <p class="project-desc">
+        End-to-end churn prediction on a 10,000+ record dataset using Logistic Regression and Random Forest with full feature engineering and cross-validation. Paired with interactive Power BI dashboards featuring drill-down customer segmentation and churn driver visualization.
+      </p>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Scikit-learn</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">Feature Engineering</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-number">02</div>
+      <div class="project-title">Real-Time Emotion Recognition from Facial Expressions</div>
+      <span class="project-metric">92% Live Accuracy</span>
+      <p class="project-desc">
+        Webcam-based real-time emotion detection integrating OpenCV face detection with a deep learning classification pipeline. Deployed as a production-ready ML feature in a client-facing product.
+      </p>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">OpenCV</span>
+        <span class="tag">Deep Learning</span>
+        <span class="tag">Real-time ML</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <p class="section-label reveal">Certifications</p>
+  <h2 class="section-title reveal">Credentials.</h2>
+  <div class="cert-list">
+    <div class="cert-item reveal">
+      <div class="cert-icon">🏆</div>
+      <div>
+        <div class="cert-name">Google Data Analytics Professional Certificate</div>
+        <div class="cert-org">Google</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">📋</div>
+      <div>
+        <div class="cert-name">Data Analytics Job Simulation</div>
+        <div class="cert-org">Deloitte · Forage</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon">☁️</div>
+      <div>
+        <div class="cert-name">Big Data, Cloud Computing & Cybersecurity</div>
+        <div class="cert-org">IBM · Yenepoya University</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="max-width:100%; padding: 6rem 4rem;">
+  <div class="contact-inner">
+    <div>
+      <p class="section-label">Let's Connect</p>
+      <h2 class="section-title">Open to opportunities.</h2>
+      <p>Looking for data analyst, ML, or BI roles where I can bring real impact. Let's talk.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:hizarafi1@gmail.com" class="contact-link">
+        <span class="contact-link-icon">✉️</span>
+        hizarafi1@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/hiza-rafi-bb8299210" target="_blank" class="contact-link">
+        <span class="contact-link-icon">💼</span>
+        linkedin.com/in/hiza-rafi-bb8299210
+      </a>
+      <a href="https://github.com/Hizarafi" target="_blank" class="contact-link">
+        <span class="contact-link-icon">🐙</span>
+        github.com/Hizarafi
+      </a>
+      <a href="tel:+919188080671" class="contact-link">
+        <span class="contact-link-icon">📞</span>
+        +91 91880 80671
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Hiza Rafi · Designed & built with intention.
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
